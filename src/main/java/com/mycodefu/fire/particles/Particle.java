@@ -37,14 +37,30 @@ public class Particle {
     }
 
     public void move(double distance) {
-        x += distance * Math.cos(directionAngleDegrees * Math.PI / 180);
-        y += distance * Math.sin(directionAngleDegrees * Math.PI / 180);
+        double candidateX = x + distance * Math.cos(directionAngleDegrees * Math.PI / 180);
+        double candidateY = y + distance * Math.sin(directionAngleDegrees * Math.PI / 180);
 
         //bounce
-        if (x < 0 || x > 1-width) {
+        if (candidateX < 0 || candidateX > 1-width) {
             directionAngleDegrees = 180 - directionAngleDegrees;
-        } else if (y < 0 || y > 1-height) {
+        } else if (candidateY < 0 || candidateY > 1-height) {
             directionAngleDegrees = 360 - directionAngleDegrees;
+        } else {
+            candidateX = correctBounds(candidateX);
+            candidateY = correctBounds(candidateY);
+
+            x = candidateX;
+            y = candidateY;
+        }
+    }
+
+    private double correctBounds(double candidate) {
+        if (candidate < 0d) {
+            return 0d;
+        } else if (candidate > 1d) {
+            return 1d;
+        } else {
+            return candidate;
         }
     }
 }
