@@ -2,6 +2,8 @@ package com.mycodefu.fire.particles;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
-public class Window extends JFrame {
+public class Window extends JFrame implements KeyListener {
     private static final int WIDTH = 640;
     private static final int HEIGHT = 480;
 
@@ -18,7 +20,9 @@ public class Window extends JFrame {
     public static final int MAX_RANDOM_TURN_DEGREES = 15;
     public static final int NUMBER_OF_PARTICLES = 1_000;
 
-    private BufferedImage bufferedImage = new BufferedImage(WIDTH, HEIGHT, TYPE_INT_RGB);
+    private final BufferedImage bufferedImage = new BufferedImage(WIDTH, HEIGHT, TYPE_INT_RGB);
+    private final Graphics graphics = bufferedImage.getGraphics();
+    private final List<Particle> particles = new ArrayList<>();
 
     private Window() {
         Container cp = getContentPane();
@@ -30,14 +34,13 @@ public class Window extends JFrame {
         setTitle("Fire Particles!");
         setVisible(true);
 
-        Graphics graphics = bufferedImage.getGraphics();
-        graphics.setColor(Color.BLACK);
-        graphics.drawRect(0, 0, WIDTH, HEIGHT);
+        addKeyListener(this);
+
+        eraseBackground();
 
         Random random = new Random();
         graphics.setColor(Color.ORANGE.brighter());
 
-        List<Particle> particles = new ArrayList<>();
         double size = 10d;
         double width = size / (double) WIDTH;
         double height = size / (double) HEIGHT;
@@ -68,6 +71,11 @@ public class Window extends JFrame {
         loop.start();
     }
 
+    private void eraseBackground() {
+        graphics.setColor(Color.BLACK);
+        graphics.fillRect(0, 0, WIDTH, HEIGHT);
+    }
+
     private void drawParticle(Graphics graphics, Particle particle) {
         drawParticle(graphics, particle, particle.color);
     }
@@ -95,4 +103,21 @@ public class Window extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Window::new);
     }
+
+    @Override
+    public void keyTyped(KeyEvent e) { }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            eraseBackground();
+            for (Particle particle : particles) {
+                particle.x = 0.5;
+                particle.y = 0.5;
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) { }
 }
