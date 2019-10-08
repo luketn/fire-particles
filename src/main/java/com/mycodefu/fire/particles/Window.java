@@ -15,10 +15,13 @@ import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 public class Window extends JFrame implements KeyListener {
     private static final int WIDTH = 640;
     private static final int HEIGHT = 480;
-
     private static final int TOP = 22;
-    public static final int MAX_RANDOM_TURN_DEGREES = 15;
-    public static final int NUMBER_OF_PARTICLES = 1_000;
+
+    private static final int NUMBER_OF_PARTICLES = 5;
+    private static final double PARTICLE_SIZE = 100d;
+
+    private static final boolean RANDOMISE_PARTICLE_DIRECTION = false;
+    private static final int MAX_RANDOM_TURN_DEGREES = 15;
 
     private final BufferedImage bufferedImage = new BufferedImage(WIDTH, HEIGHT, TYPE_INT_RGB);
     private final Graphics graphics = bufferedImage.getGraphics();
@@ -41,7 +44,7 @@ public class Window extends JFrame implements KeyListener {
         Random random = new Random();
         graphics.setColor(Color.ORANGE.brighter());
 
-        double size = 10d;
+        double size = PARTICLE_SIZE;
         double width = size / (double) WIDTH;
         double height = size / (double) HEIGHT;
 
@@ -56,11 +59,13 @@ public class Window extends JFrame implements KeyListener {
                 particle.move(0.01);
                 drawParticle(graphics, particle);
 
-                if (counter.incrementAndGet() % (random.nextInt(42) + 1) == 0) {
-                    if (random.nextBoolean()) {
-                        particle.turnRight(random.nextDouble() * MAX_RANDOM_TURN_DEGREES);
-                    } else {
-                        particle.turnLeft(random.nextDouble() * MAX_RANDOM_TURN_DEGREES);
+                if (RANDOMISE_PARTICLE_DIRECTION) {
+                    if (counter.incrementAndGet() % (random.nextInt(42) + 1) == 0) {
+                        if (random.nextBoolean()) {
+                            particle.turnRight(random.nextDouble() * MAX_RANDOM_TURN_DEGREES);
+                        } else {
+                            particle.turnLeft(random.nextDouble() * MAX_RANDOM_TURN_DEGREES);
+                        }
                     }
                 }
             }
