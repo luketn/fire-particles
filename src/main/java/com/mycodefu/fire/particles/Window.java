@@ -15,7 +15,7 @@ public class Window extends JFrame {
     private static final int HEIGHT = 480;
 
     private static final int TOP = 22;
-    public static final int MAX_RANDOM_TURN = 15;
+    public static final int MAX_RANDOM_TURN_DEGREES = 15;
     public static final int NUMBER_OF_PARTICLES = 1_000;
 
     private BufferedImage bufferedImage = new BufferedImage(WIDTH, HEIGHT, TYPE_INT_RGB);
@@ -55,9 +55,9 @@ public class Window extends JFrame {
 
                 if (counter.incrementAndGet() % (random.nextInt(42) + 1) == 0) {
                     if (random.nextBoolean()) {
-                        particle.turnRight(random.nextDouble() * MAX_RANDOM_TURN);
+                        particle.turnRight(random.nextDouble() * MAX_RANDOM_TURN_DEGREES);
                     } else {
-                        particle.turnLeft(random.nextDouble() * MAX_RANDOM_TURN);
+                        particle.turnLeft(random.nextDouble() * MAX_RANDOM_TURN_DEGREES);
                     }
                 }
             }
