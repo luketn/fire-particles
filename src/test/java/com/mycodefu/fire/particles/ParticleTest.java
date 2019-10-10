@@ -29,7 +29,7 @@ public class ParticleTest {
 
         System.out.println(String.format("Before x: %f, y: %f", particle.x, particle.y));
 
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 9; i++) {
             particle.move(0.1);
             System.out.println(String.format("After %d move%s x: %f, y: %f", i, i == 1 ? "" : "s", particle.x, particle.y));
 
@@ -37,7 +37,7 @@ public class ParticleTest {
             assertEquals("Failed to remain horizontal", 0d, particle.y, 0.001d);
         }
 
-        assertEquals("Failed to move right to the edge of the screen", 1.0d, particle.x, 0.001d);
+        assertEquals("Failed to move right to the edge of the screen", 0.9d, particle.x, 0.001d);
         assertEquals("Failed to remain horizontal", 0d, particle.y, 0.001d);
     }
 
@@ -47,7 +47,7 @@ public class ParticleTest {
 
         System.out.println(String.format("Before x: %f, y: %f", particle.x, particle.y));
 
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 9; i++) {
             particle.move(0.1);
             System.out.println(String.format("After %d move%s x: %f, y: %f", i, i == 1 ? "" : "s", particle.x, particle.y));
 
@@ -56,6 +56,38 @@ public class ParticleTest {
         }
 
         assertEquals("Failed to remain in the middle", 0.5d, particle.x, 0.001d);
-        assertEquals("Failed to move up to the top of the screen", 1.0d, particle.y, 0.001d);
+        assertEquals("Failed to move up to the top of the screen", 0.9d, particle.y, 0.001d);
+    }
+
+    @Test
+    public void distance_from_center() {
+        Particle particle = new Particle(0.5, 0.5, 90);
+
+        System.out.println(String.format("Distance from center: %f", particle.distanceFromCenter()));
+        assertEquals("Failed to measure 0 from the center", 0d, particle.distanceFromCenter(), 0.001d);
+    }
+
+    @Test
+    public void distance_from_center_left_middle() {
+        Particle particle = new Particle(0.0, 0.5, 90);
+
+        System.out.println(String.format("Distance from center: %f", particle.distanceFromCenter()));
+        assertEquals("Failed to measure 0 from the center", 0.5d, particle.distanceFromCenter(), 0.001d);
+    }
+
+    @Test
+    public void distance_from_center__top_left() {
+        Particle particle = new Particle(0.0, 0.0, 90);
+
+        System.out.println(String.format("Distance from center: %f", particle.distanceFromCenter()));
+        assertEquals("Failed to measure 0 from the center", 0.707d, particle.distanceFromCenter(), 0.001d);
+    }
+
+    @Test
+    public void distance_from_center__bottom_right() {
+        Particle particle = new Particle(1.0, 1.0, 90);
+
+        System.out.println(String.format("Distance from center: %f", particle.distanceFromCenter()));
+        assertEquals("Failed to measure 0 from the center", 0.707d, particle.distanceFromCenter(), 0.001d);
     }
 }
