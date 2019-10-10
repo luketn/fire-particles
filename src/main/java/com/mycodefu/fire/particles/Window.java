@@ -13,8 +13,6 @@ public class Window extends JFrame implements KeyListener {
     private static final int NUMBER_OF_PARTICLES = 5_000;
     private static final int PARTICLE_SIZE_PIXELS = 3;
 
-    Image sun = new ImageIcon(Window.class.getResource("/heat-source.gif")).getImage();
-
     private final ParticleRenderer particleRenderer;
     private final ParticleArena particleArena;
 
