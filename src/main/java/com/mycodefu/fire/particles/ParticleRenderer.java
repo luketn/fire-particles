@@ -1,9 +1,8 @@
 package com.mycodefu.fire.particles;
 
-import java.util.List;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
@@ -36,21 +35,13 @@ public class ParticleRenderer {
     }
 
     private void drawParticle(Graphics graphics, Particle particle, Color color) {
-        int x = (int) (particle.x * this.width);
-        int y = (int) (particle.y * this.height);
+        int x = (int) (particle.getLocation().x * this.width);
+        int y = (int) (particle.getLocation().y * this.height);
 
-        int width = (int) (particle.width * this.width);
-        int height = (int) (particle.height * this.height);
+        int diameter = (int) (particle.getDiameter() * this.width);
 
         graphics.setColor(color);
-        graphics.fillOval(x, y, width, height);
-
-        if (DRAW_TEMPERATURE) {
-            graphics.setColor(Color.BLACK);
-            String warmth = String.format("%.2f", particle.getWarmth());
-            Rectangle2D stringBounds = graphics.getFontMetrics().getStringBounds(warmth, graphics);
-            graphics.drawString(warmth, x + width / 2 - (int) stringBounds.getWidth() / 2, y + height / 2 + (int) stringBounds.getHeight() / 2);
-        }
+        graphics.fillOval(x, y, diameter, diameter);
     }
 
     public void render(List<Particle> particles) {

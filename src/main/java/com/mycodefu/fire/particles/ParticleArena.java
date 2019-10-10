@@ -1,5 +1,7 @@
 package com.mycodefu.fire.particles;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,29 +15,27 @@ public class ParticleArena {
     public ParticleArena(int width, int height) {
         this.width = width;
         this.height = height;
-        particles = new ArrayList<>();
-        random = new Random();
+        this.particles = new ArrayList<>();
+        this.random = new Random();
     }
 
     public void seedParticles(int numberOfParticles, int particleSizePixels) {
-        double width = particleSizePixels / (double) this.width;
-        double height = particleSizePixels / (double) this.height;
+        double diameter = particleSizePixels / (double) this.width;
 
         for (int i = 0; i < numberOfParticles; i++) {
-            particles.add(new Particle(0.5, 0.5, random.nextDouble() * 360d, width, height));
+            particles.add(new Particle(0.5, 0.5, random.nextDouble() * 360d, diameter, Color.ORANGE));
         }
     }
 
     public void reset() {
         for (Particle particle : particles) {
-            particle.x = 0.5;
-            particle.y = 0.5;
+            particle.move(new Point2D.Double(0.5, 0.5));
         }
     }
 
-    public void tick() {
+    public void tick(ParticleMovement movementStrategy) {
         for (Particle particle : particles) {
-            particle.breathe();
+            movementStrategy.breathe(particle, this);
         }
     }
 }

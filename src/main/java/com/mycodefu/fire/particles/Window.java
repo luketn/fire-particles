@@ -34,9 +34,11 @@ public class Window extends JFrame implements KeyListener {
         particleArena = new ParticleArena(WIDTH, HEIGHT);
         particleArena.seedParticles(NUMBER_OF_PARTICLES, PARTICLE_SIZE_PIXELS);
 
+        ParticleMovement movementStrategy = new ParticleMovementHeatMap();
+
         particleRenderer = new ParticleRenderer(WIDTH, HEIGHT);
         Timer loop = new Timer(60, e -> {
-            particleArena.tick();
+            particleArena.tick(movementStrategy);
             particleRenderer.render(particleArena.particles);
             this.repaint();
         });
