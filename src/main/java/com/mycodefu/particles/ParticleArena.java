@@ -1,18 +1,21 @@
-package com.mycodefu.fire.particles;
+package com.mycodefu.particles;
+
+import com.mycodefu.movement.ParticleMovement;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class ParticleArena {
-    final List<Particle> particles;
+    private final List<Particle> particles;
     private final Random random;
+    private ParticleMovement movementStrategy;
     private final int width;
     private final int height;
 
-    public ParticleArena(int width, int height) {
+    public ParticleArena(ParticleMovement movementStrategy, int width, int height) {
+        this.movementStrategy = movementStrategy;
         this.width = width;
         this.height = height;
         this.particles = new ArrayList<>();
@@ -36,13 +39,17 @@ public class ParticleArena {
 
     public void reset() {
         for (Particle particle : particles) {
-            particle.move(new Point2D.Double(0.5, 0.5));
+            movementStrategy.reset(particle, this);
         }
     }
 
-    public void tick(ParticleMovement movementStrategy) {
+    public void tick() {
         for (Particle particle : particles) {
             movementStrategy.breathe(particle, this);
         }
+    }
+
+    public List<Particle> getParticles() {
+        return particles;
     }
 }

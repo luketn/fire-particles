@@ -1,4 +1,4 @@
-package com.mycodefu.fire.particles;
+package com.mycodefu.calculations;
 
 public class Physics {
 

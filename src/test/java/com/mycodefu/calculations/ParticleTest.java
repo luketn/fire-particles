@@ -1,12 +1,13 @@
-package com.mycodefu.fire.particles;
+package com.mycodefu.calculations;
 
+import com.mycodefu.particles.Particle;
+import org.junit.Assert;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ParticleTest {
 

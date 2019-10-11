@@ -1,4 +1,4 @@
-package com.mycodefu.fire.particles;
+package com.mycodefu.particles;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -56,7 +56,7 @@ public class ParticleRenderer {
         }
     }
 
-    public void draw(Graphics drawTo, int offsetTop) {
-        drawTo.drawImage(bufferedImage, 0, offsetTop, width, height, Color.BLACK, null);
+    public void draw(Graphics drawTo) {
+        drawTo.drawImage(bufferedImage, 0, 0, width, height, Color.BLACK, null);
     }
 }

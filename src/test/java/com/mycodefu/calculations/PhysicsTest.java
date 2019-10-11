@@ -1,5 +1,7 @@
-package com.mycodefu.fire.particles;
+package com.mycodefu.calculations;
 
+import com.mycodefu.calculations.Physics;
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

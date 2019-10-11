@@ -1,4 +1,4 @@
-package com.mycodefu.fire.particles;
+package com.mycodefu.calculations;
 
 import java.awt.geom.Point2D;
 
