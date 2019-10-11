@@ -2,6 +2,7 @@ package com.mycodefu;
 
 import com.mycodefu.movement.ParticleMovement;
 import com.mycodefu.movement.ParticleMovementHeatMap;
+import com.mycodefu.movement.ParticleMovementSimpleBounce;
 import com.mycodefu.particles.ParticleArena;
 import com.mycodefu.particles.ParticleRenderer;
 
@@ -9,10 +10,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Arrays;
+import java.util.List;
 
 public class Window extends JFrame implements KeyListener {
     private static final int NUMBER_OF_PARTICLES = 10_000;
     private static final int PARTICLE_SIZE_PIXELS = 3;
+    private final List<ParticleMovement> MOVEMENT_STRATEGIES = Arrays.asList(
+            new ParticleMovementSimpleBounce(),
+            new ParticleMovementHeatMap()
+    );
+    private int MOVEMENT_STRATEGY = 1;
+
 
     private final ParticleRenderer particleRenderer;
     private final ParticleArena particleArena;
@@ -25,7 +34,7 @@ public class Window extends JFrame implements KeyListener {
 
         addKeyListener(this);
 
-        ParticleMovement movementStrategy = new ParticleMovementHeatMap();
+        ParticleMovement movementStrategy = MOVEMENT_STRATEGIES.get(MOVEMENT_STRATEGY);
 
         particleArena = new ParticleArena(movementStrategy, screenSize.width, screenSize.height);
         particleArena.seedParticles(NUMBER_OF_PARTICLES, PARTICLE_SIZE_PIXELS);
@@ -62,6 +71,20 @@ public class Window extends JFrame implements KeyListener {
             case KeyEvent.VK_Q:
             case KeyEvent.VK_ESCAPE:
                 System.exit(0);
+                break;
+            case KeyEvent.VK_LEFT:
+                MOVEMENT_STRATEGY--;
+                if (MOVEMENT_STRATEGY<0){
+                    MOVEMENT_STRATEGY = MOVEMENT_STRATEGIES.size()-1;
+                }
+                particleArena.changeStrategy(MOVEMENT_STRATEGIES.get(MOVEMENT_STRATEGY));
+                break;
+            case KeyEvent.VK_RIGHT:
+                MOVEMENT_STRATEGY++;
+                if (MOVEMENT_STRATEGY > MOVEMENT_STRATEGIES.size() - 1) {
+                    MOVEMENT_STRATEGY = 0;
+                }
+                particleArena.changeStrategy(MOVEMENT_STRATEGIES.get(MOVEMENT_STRATEGY));
                 break;
         }
     }

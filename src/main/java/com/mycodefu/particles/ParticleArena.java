@@ -37,6 +37,10 @@ public class ParticleArena {
         }
     }
 
+    public void changeStrategy(ParticleMovement movementStrategy) {
+        this.movementStrategy = movementStrategy;
+    }
+
     public void reset() {
         for (Particle particle : particles) {
             movementStrategy.reset(particle, this);
