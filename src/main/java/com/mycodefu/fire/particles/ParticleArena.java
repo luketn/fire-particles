@@ -20,10 +20,17 @@ public class ParticleArena {
     }
 
     public void seedParticles(int numberOfParticles, int particleSizePixels) {
-        double diameter = particleSizePixels / (double) this.width;
+        double height = (double) particleSizePixels / (double) this.height;
+        double width = (double) particleSizePixels / (double) this.width;
+        double diameter;
+        if (height > width) {
+            diameter = width;
+        } else {
+            diameter = height;
+        }
 
         for (int i = 0; i < numberOfParticles; i++) {
-            particles.add(new Particle(0.5, 0.5, random.nextDouble() * 360d, diameter, Color.ORANGE));
+            particles.add(new Particle(0.5, 0.5, random.nextDouble() * 360d, diameter, diameter, Color.ORANGE));
         }
     }
 

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.mycodefu.fire.particles.Distance.distance;
+import static com.mycodefu.fire.particles.Physics.calculateBounceAngle;
 
 public class ParticleMovementHeatMap implements ParticleMovement {
     public static final Point2D.Double CENTER_LOCATION = new Point2D.Double(0.5, 0.5);
@@ -26,16 +27,16 @@ public class ParticleMovementHeatMap implements ParticleMovement {
         double factor = 1.5d;
         if (particleHeat.warmth < 0.5d && particleHeat.mode == ParticleMode.Happy) {
             particleHeat.mode = ParticleMode.Cold;
-        } else if (particleHeat.warmth >= 1 && particleHeat.mode == ParticleMode.Cold){
+        } else if (particleHeat.warmth >= 1 && particleHeat.mode == ParticleMode.Cold) {
             particleHeat.mode = ParticleMode.Happy;
         }
 
         switch (particleHeat.mode) {
             case Happy: {
-                if (particleHeat.warmth > 1){
+                if (particleHeat.warmth > 1) {
                     particle.turnRight(1);
                 }
-                move(particle, 0.02d + (particleHeat.warmth * 0.005));
+                move(particle, 0.01d + (particleHeat.warmth * 0.005));
                 break;
             }
             case Cold: {
@@ -44,7 +45,7 @@ public class ParticleMovementHeatMap implements ParticleMovement {
                     particle.turnLeft(25);
                 }
                 //move faster the colder we are
-                move(particle,0.01d);
+                move(particle, 0.01d);
                 break;
             }
         }
@@ -57,10 +58,12 @@ public class ParticleMovementHeatMap implements ParticleMovement {
         double candidateY = particle.getLocation().y + distance * Math.sin(particle.getAngleDegrees() * Math.PI / 180);
 
         //bounce
-        if (candidateX < 0 || candidateX > 1 - particle.getDiameter()) {
-            particle.setAngleDegrees(180 - particle.getAngleDegrees());
-        } else if (candidateY < 0 || candidateY > 1 - particle.getDiameter()) {
-            particle.setAngleDegrees(360 - particle.getAngleDegrees());
+        if (candidateX < 0 || candidateX > 1 - particle.getWidth()) {
+            double bounceAngle = calculateBounceAngle(Physics.WallType.Vertical, particle.getAngleDegrees());
+            particle.setAngleDegrees(bounceAngle);
+        } else if (candidateY < 0 || candidateY > 1 - particle.getHeight()) {
+            double bounceAngle = calculateBounceAngle(Physics.WallType.Horizontal, particle.getAngleDegrees());
+            particle.setAngleDegrees(bounceAngle);
         } else {
             candidateX = correctBounds(candidateX);
             candidateY = correctBounds(candidateY);

@@ -6,9 +6,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Window extends JFrame implements KeyListener {
-    private static final int WIDTH = 1024;
-    private static final int HEIGHT = 768;
-    private static final int TOP = 22;
+    private static int WIDTH = 1024;
+    private static int HEIGHT = 768;
+    private static int TOP = 22;
 
     private static final int NUMBER_OF_PARTICLES = 5_000;
     private static final int PARTICLE_SIZE_PIXELS = 3;
@@ -16,18 +16,17 @@ public class Window extends JFrame implements KeyListener {
     private final ParticleRenderer particleRenderer;
     private final ParticleArena particleArena;
 
-    private Window() {
-        Container cp = getContentPane();
-        cp.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        setResizable(false);
-        pack();
-        setBackground(Color.BLACK);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setTitle("Fire Particles!");
-        setVisible(true);
+    static GraphicsDevice device = GraphicsEnvironment
+            .getLocalGraphicsEnvironment().getScreenDevices()[0];
 
+    private Window() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setLocation(screenSize.width/2 - WIDTH/2, screenSize.height/2 - HEIGHT/2);
+
+        WIDTH = screenSize.width;
+        HEIGHT = screenSize.height;
+        TOP = 0;
+
+        device.setFullScreenWindow(this);
 
         addKeyListener(this);
 
@@ -56,7 +55,8 @@ public class Window extends JFrame implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) { }
+    public void keyTyped(KeyEvent e) {
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -67,5 +67,6 @@ public class Window extends JFrame implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) { }
+    public void keyReleased(KeyEvent e) {
+    }
 }
