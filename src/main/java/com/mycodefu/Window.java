@@ -17,30 +17,30 @@ public class Window extends JFrame implements KeyListener {
     private static final int NUMBER_OF_PARTICLES = 10_000;
     private static final int PARTICLE_SIZE_PIXELS = 3;
     private final List<ParticleMovement> MOVEMENT_STRATEGIES = Arrays.asList(
-            new ParticleMovementSimpleBounce(),
-            new ParticleMovementHeatMap()
+            new ParticleMovementHeatMap(),
+            new ParticleMovementSimpleBounce()
     );
-    private int MOVEMENT_STRATEGY = 1;
+    private int MOVEMENT_STRATEGY = 0;
 
 
     private final ParticleRenderer particleRenderer;
     private final ParticleArena particleArena;
 
     private Window() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-        GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
+        var device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
         device.setFullScreenWindow(this);
 
         addKeyListener(this);
 
-        ParticleMovement movementStrategy = MOVEMENT_STRATEGIES.get(MOVEMENT_STRATEGY);
+        var movementStrategy = MOVEMENT_STRATEGIES.get(MOVEMENT_STRATEGY);
 
         particleArena = new ParticleArena(movementStrategy, screenSize.width, screenSize.height);
         particleArena.seedParticles(NUMBER_OF_PARTICLES, PARTICLE_SIZE_PIXELS);
 
         particleRenderer = new ParticleRenderer(screenSize.width, screenSize.height);
-        Timer loop = new Timer(60, e -> {
+        var loop = new Timer(60, e -> {
             particleArena.tick();
             particleRenderer.render(particleArena.getParticles());
             this.repaint();

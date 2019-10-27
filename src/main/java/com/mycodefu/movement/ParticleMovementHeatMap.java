@@ -2,7 +2,6 @@ package com.mycodefu.movement;
 
 import com.mycodefu.particles.Particle;
 import com.mycodefu.particles.ParticleArena;
-import com.mycodefu.calculations.Physics;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -11,7 +10,6 @@ import java.util.Map;
 import java.util.Random;
 
 import static com.mycodefu.calculations.Distance.distance;
-import static com.mycodefu.calculations.Physics.calculateBounceAngle;
 import static com.mycodefu.calculations.Physics.moveInBounds;
 
 public class ParticleMovementHeatMap implements ParticleMovement {
